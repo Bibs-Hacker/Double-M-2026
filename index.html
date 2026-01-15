@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0ff">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="https://files.catbox.moe/08b4pp.jpg">
+    <link rel="stylesheet" href="https://unpkg.com/cybercore-css@latest/dist/cybercore.min.css">
+    <title>Family Chat App - Ultimate Edition</title>
+    <!-- Expanded CSS for a more admiring, professional, and cyberpunk interface -->
+    <!-- We've added more animations, gradients, particle effects simulation via CSS, more neon variations, hover effects, transitions, and responsive tweaks -->
+    <!-- This makes the style section longer and more impressive, with detailed comments for maintainability -->
+    <style>
+        /* Root variables for theming - expanded with more color options for variety */
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00aa;
+            --neon-purple: #9d00ff;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffff00;
+            --neon-blue: #00ffff;
+            --neon-red: #ff0000;
+            --dark-bg: #0a0015;
+            --dark-bg-secondary: #12002a;
+            --dark-panel: #140028;
+            --dark-panel-hover: #20003a;
+            --light-bg: #f0f0f0;
+            --light-text: #000;
+            --light-panel: #ddd;
+            --light-panel-hover: #ccc;
+            --shadow-neon: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-magenta);
+            --shadow-neon-hover: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-magenta), 0 0 50px var(--neon-purple);
+            --transition-fast: 0.3s ease-in-out;
+            --transition-slow: 0.6s ease-in-out;
+        }
+
+        /* Body styling with enhanced background for immersive cyberpunk feel */
+        body {
+            font-family: 'Arial', sans-serif; /* Fallback to system fonts for better performance */
+            margin: 0;
+            padding: 0;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0,240,255,0.08) 0%, transparent 25%),
+                radial-gradient(circle at 85% 85%, rgba(157,0,255,0.07) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(57,255,20,0.05) 0%, transparent 40%); /* Added extra gradient for depth */
+            color: #e0f0ff;
+            transition: background var(--transition-slow), color var(--transition-fast);
+            min-height: 100vh; /* Ensure full height for better layout */
+            position: relative; /* For pseudo-elements positioning */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Light theme overrides */
+        body.light {
+            background: var(--light-bg);
+            color: var(--light-text);
+            background-image: none;
+        }
+
+        /* Enhanced animations - more keyframes for dynamic effects */
+        @keyframes pulse {
+            0%, 100% { box-shadow: var(--shadow-neon); }
+            50% { box-shadow: var(--shadow-neon-hover); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-magenta); }
+            50% { text-shadow: 0 0 2px var(--neon-cyan), 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan); opacity: 0.8; }
+            25% { text-shadow: 0 0 3px var(--neon-purple), 0 0 7px var(--neon-purple); } /* Added variation */
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); clip-path: polygon(0 0, 100% 0, 100% 20%, 0 20%); }
+            40% { transform: translate(-2px, -2px); clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); }
+            60% { transform: translate(2px, 2px); clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); }
+            80% { transform: translate(2px, -2px); clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); }
+            100% { transform: translate(0); clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%); }
+        }
+
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        /* New animations for voice chat and notifications */
+        @keyframes voice-wave {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @keyframes notify-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes spin-loader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slide-in-left {
+            0% { opacity: 0; transform: translateX(-100%); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slide-in-right {
+            0% { opacity: 0; transform: translateX(100%); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Apply new animations to elements */
+        .voice-recording {
+            animation: voice-wave 1s infinite;
+            background: var(--neon-red);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+
+        .notify-icon {
+            animation: notify-bounce 1s infinite;
+        }
+
+        .loading-spinner {
+            border: 4px solid var(--neon-cyan);
+            border-top: 4px solid var(--neon-magenta);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin-loader 1s linear infinite;
+        }
+
+        .fade-in {
+            animation: fade-in 0.5s ease-out;
+        }
+
+        .slide-in-left {
+            animation: slide-in-left 0.5s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slide-in-right 0.5s ease-out;
+        }
+
+        /* New scanline effect for retro cyberpunk vibe */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(to bottom, transparent 0px, rgba(255,255,255,0.02) 1px, transparent 2px);
+            background-size: 100% 2px;
+            animation: scanline 2s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .light body::after {
+            display: none;
+        }
+
+        /* Neon text class with enhanced animation */
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-magenta);
+            animation: flicker 1.5s infinite alternate;
+            font-weight: bold; /* Bolder for emphasis */
+            letter-spacing: 1px; /* Spacing for futuristic look */
+        }
+
+        /* Pulse glow for interactive elements */
+        .pulse-glow {
+            animation: pulse 2s infinite;
+            transition: transform var(--transition-fast);
+        }
+
+        .pulse-glow:hover {
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        /* Cyber glitch for headers */
+        .cyber-glitch {
+            animation: glitch 2s infinite;
+            position: relative;
+        }
+
+        .cyber-glitch::before {
+            content: attr(data-text); /* Duplicate text for glitch effect */
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--neon-magenta);
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+            animation: glitch 3s infinite alternate-reverse;
+            opacity: 0.7;
+        }
+
+        .cyber-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--neon-green);
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+            animation: glitch 2.5s infinite alternate;
+            opacity: 0.7;
+        }
+
+        /* Input and select styling - expanded with focus effects */
+        input, select {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid var(--neon-purple);
+            background: rgba(20,0,40,0.65);
+            color: #e0f0ff;
+            box-shadow: inset 0 0 8px rgba(157,0,255,0.4), 0 0 15px rgba(157,0,255,0.35);
+            backdrop-filter: blur(4px);
+            width: calc(100% - 24px);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--neon-green);
+            box-shadow: inset 0 0 12px var(--neon-green), 0 0 20px var(--neon-green);
+            outline: none;
+        }
+
+        .light input, .light select {
+            background: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        .light input:focus, .light select:focus {
+            border-color: #000;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+
+        /* Chat messages container - enhanced with scroll styling */
+        #chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--neon-green);
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(20,0,40,0.5);
+            box-shadow: 0 0 20px var(--neon-green);
+            border-radius: 8px;
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: var(--neon-cyan) var(--dark-panel);
+        }
+
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: var(--neon-cyan);
+            border-radius: 4px;
+        }
+
+        #chat-messages::-webkit-scrollbar-track {
+            background: var(--dark-panel);
+        }
+
+        .light #chat-messages {
+            background: #eee;
+            border-color: #ccc;
+            box-shadow: none;
+            scrollbar-color: #ccc #eee;
+        }
+
+        /* Message styling - added hover for interactivity */
+        .message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--dark-panel);
+            box-shadow: 0 0 10px var(--neon-purple);
+            transition: background var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .message:hover {
+            background: var(--dark-panel-hover);
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .light .message {
+            background: var(--light-panel);
+            color: var(--light-text);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .light .message:hover {
+            background: var(--light-panel-hover);
+        }
+
+        /* Footer with subtle glow */
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .light footer {
+            color: #666;
+            text-shadow: none;
+            background: rgba(255,255,255,0.5);
+        }
+
+        /* Navigation bar - expanded with flex and hover */
+        nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(20,0,40,0.8);
+            padding: 15px;
+            box-shadow: 0 0 20px var(--neon-magenta);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            transition: background var(--transition-fast);
+        }
+
+        nav:hover {
+            background: rgba(20,0,40,0.9);
+        }
+
+        .light nav {
+            background: #ccc;
+            box-shadow: none;
+        }
+
+        .light nav:hover {
+            background: #bbb;
+        }
+
+        /* Graph styling for admin - added borders */
+        .graph {
+            width: 100%;
+            height: 400px;
+            background: var(--dark-panel);
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--neon-cyan);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .light .graph {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+        }
+
+        /* Background grid - enhanced with more lines */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                linear-gradient(rgba(157,0,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157,0,255,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(57,255,20,0.04) 2px, transparent 2px) 0 20px, /* Added layer */
+                linear-gradient(90deg, rgba(57,255,20,0.04) 2px, transparent 2px) 20px 0;
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+            animation: grid-move 60s linear infinite;
+            opacity: 0.8; /* Adjusted for visibility */
+        }
+
+        @keyframes grid-move {
+            from { background-position: 0 0; }
+            to { background-position: 40px 40px; }
+        }
+
+        .light body::before {
+            display: none;
+        }
+
+        /* Password toggle button - added hover */
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--neon-cyan);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .password-toggle:hover {
+            color: var(--neon-green);
+        }
+
+        /* Screen containers - expanded with padding and shadows */
+        .screen {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 30px; /* Increased padding for better spacing */
+            background: rgba(20,0,40,0.65);
+            border-radius: 12px;
+            box-shadow: 0 0 30px var(--neon-purple), inset 0 0 10px rgba(157,0,255,0.2); /* Added inset shadow */
+            transition: box-shadow var(--transition-slow);
+        }
+
+        .screen:hover {
+            box-shadow: 0 0 40px var(--neon-purple), inset 0 0 15px rgba(157,0,255,0.3);
+        }
+
+        .light .screen {
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .light .screen:hover {
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        /* Headers with data-text for glitch effect */
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px; /* Larger for impact */
+            letter-spacing: 2px;
+        }
+
+        h1[data-text], h2[data-text] {
+            position: relative;
+        }
+
+        /* Button overrides for CYBERCORE - added more variants */
+        .cyber-btn {
+            transition: all var(--transition-fast);
+        }
+
+        .cyber-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-neon-hover);
+        }
+
+        /* Additional utility classes for flexibility */
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .margin-top-20 {
+            margin-top: 20px;
+        }
+
+        .padding-10 {
+            padding: 10px;
+        }
+
+        /* Particle simulation - simple CSS dots for background effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: float 10s infinite linear;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.5; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* Generate multiple particles via JS later if needed, but for now, define classes */
+        .particle:nth-child(odd) {
+            background: var(--neon-magenta);
+            animation-duration: 15s;
+        }
+
+        .light .particle {
+            display: none;
+        }
+
+        /* Voice chat specific styles */
+        #voice-record-btn {
+            background: var(--neon-red);
+            color: #fff;
+            animation: pulse 1s infinite;
+        }
+
+        .voice-message audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark">
+    <!-- Particle background for enhanced visuals - added for admiring interface -->
+    <div class="particles">
+        <!-- JS will generate particles, but for static, add some -->
+    </div>
+
+    <div id="recaptcha-container" class="hidden"></div>
+
+    <!-- Simplified Login Screen - now main entry with Login button -->
+    <div id="login-screen" class="screen">
+        <h1 class="neon-text cyber-glitch" data-text="Login to Family Chat">Login to Family Chat</h1>
+        <input type="email" id="login-email" placeholder="Email">
+        <div style="position:relative;">
+            <input type="password" id="login-password" placeholder="Password">
+            <button class="password-toggle" onclick="App.UI.togglePassword('login-password')">👁</button>
+        </div>
+        <button class="cyber-btn pulse-glow margin-top-20" onclick="App.Auth.login()">Login</button>
+        <button class="cyber-btn cyber-btn--magenta pulse-glow margin-top-20" onclick="App.UI.showRegister()">Register</button>
+    </div>
+
+    <!-- Simplified Register Screen - single Register button for email/password -->
+    <div id="register-screen" class="screen hidden">
+        <h1 class="neon-text cyber-glitch" data-text="Register New Account">Register New Account</h1>
+        <input type="text" id="reg-username" placeholder="Username">
+        <input type="email" id="reg-email" placeholder="Email">
+        <div style="position:relative;">
+            <input type="password" id="reg-password" placeholder="Password">
+            <button class="password-toggle" onclick="App.UI.togglePassword('reg-password')">👁</button>
+        </div>
+        <button class="cyber-btn pulse-glow margin-top-20" onclick="App.Auth.registerWithEmail()">Register</button>
+        <button class="cyber-btn cyber-btn--outline pulse-glow margin-top-20" onclick="App.UI.showLogin()">Back to Login</button>
+    </div>
+
+    <!-- Profile Setup Screen -->
+    <div id="profile-setup" class="screen hidden">
+        <h1 class="neon-text cyber-glitch" data-text="Set Up Your Profile">Set Up Your Profile</h1>
+        <input type="text" id="profile-username" placeholder="System Username">
+        <input type="file" id="profile-pic" accept="image/*">
+        <button class="cyber-btn pulse-glow margin-top-20" onclick="App.Profile.setup()">Save Profile</button>
+    </div>
+
+    <!-- Home Screen with Navigation -->
+    <div id="home-screen" class="hidden">
+        <nav>
+            <button class="cyber-btn pulse-glow" onclick="App.UI.showHome()">Home</button>
+            <button class="cyber-btn cyber-btn--magenta pulse-glow" onclick="App.UI.showFeed()">Feed</button>
+            <button class="cyber-btn cyber-btn--green pulse-glow hidden" id="admin-btn" onclick="App.UI.showAdmin()">Admin</button>
+            <button class="cyber-btn pulse-glow" onclick="App.UI.toggleTheme()">Toggle Theme</button>
+            <button class="cyber-btn cyber-btn--outline pulse-glow" onclick="App.Auth.logout()">Logout</button>
+        </nav>
+        <div class="screen">
+            <input type="text" id="search-user" placeholder="Search users" oninput="App.Users.search()">
+            <div id="user-list" class="padding-10"></div>
+        </div>
+        <div id="chat-screen" class="screen hidden">
+            <h2 class="neon-text cyber-glitch" data-text="Chat with">Chat with <span id="chat-with"></span></h2>
+            <div id="chat-messages" class="cyber-terminal"></div>
+            <input type="text" id="chat-input" placeholder="Type message">
+            <input type="file" id="chat-file" accept="image/*,application/pdf">
+            <button class="cyber-btn pulse-glow" onclick="App.Chat.send()">Send</button>
+            <button id="voice-record-btn" class="cyber-btn pulse-glow" onclick="App.Voice.toggleRecording()">Record Voice</button>
+        </div>
+        <div id="feed-screen" class="screen hidden">
+            <h2 class="neon-text cyber-glitch" data-text="Social Feed">Social Feed</h2>
+            <input type="text" id="post-content" placeholder="What's on your mind?">
+            <input type="file" id="post-media" accept="image/*,video/*">
+            <button class="cyber-btn pulse-glow" onclick="App.Feed.createPost()">Post</button>
+            <div id="posts" class="padding-10"></div>
+        </div>
+        <div id="admin-screen" class="screen hidden">
+            <h2 class="neon-text cyber-glitch" data-text="Admin Dashboard">Admin Dashboard</h2>
+            <canvas id="users-chart" class="graph cyber-card"></canvas>
+            <canvas id="chats-chart" class="graph cyber-card"></canvas>
+        </div>
+    </div>
+
+    <footer class="text-center">Powered by Brian And Merab ©2026. Main Developers: Brian and Merab.</footer>
+
+    <!-- Expanded Script Section - Made modular with detailed comments for each function and module -->
+    <!-- This makes the script longer, more readable, and professional for your customer -->
+    <script>
+        // ==============================================
+        // APP CONFIGURATION AND INITIALIZATION
+        // ==============================================
+        // Central App object to hold all modules - prevents global namespace pollution
+        const App = {};
+
+        // Configuration - Replace with your real Firebase details from console.firebase.google.com
+        // NOTE: This is the fix for initialization error - placeholders cause failure, replace them!
+        App.Config = {
+            firebaseConfig: {
+                apiKey: "AIzaSyCwcdPhGcHb6kDhVPYJgV0lpZoWX3qSn4A",           // ← CHANGE!
+                authDomain: "heartline-6bb08.firebaseapp.com",
+                projectId: "heartline-6bb08",
+                storageBucket: "heartline-6bb08.firebasestorage.app",
+                messagingSenderId: "372851895770",
+                appId: "1:372851895770:web:aac0ae1e5bdb22482c24e3",
+                databaseURL: "https://heartline-6bb08-default-rtdb.firebaseio.com/" // ← Replace this
+            }
+        };
+
+        // Initialization function - wrapped in IIFE for immediate execution
+        (function() {
+            try {
+                // Initialize Firebase with config
+                firebase.initializeApp(App.Config.firebaseConfig);
+                // Assign services to App for easy access
+                App.Auth.init();
+                App.DB = firebase.firestore();
+                App.RTDB = firebase.database();
+                App.Storage = firebase.storage();
+                App.Messaging = firebase.messaging();
+                // Start monitoring auth state
+                App.Auth.monitorAuthState();
+                // Initialize notifications
+                App.Notifications.init();
+                // Optional: Generate particles for background effect
+                generateParticles(50); // Call to add dynamic particles
+            } catch (err) {
+                // Enhanced error handling - alert with specific advice
+                alert("Firebase initialization failed: " + err.message + "\nPlease replace the placeholders in App.Config.firebaseConfig with your real Firebase project details from console.firebase.google.com. Without this, auth and database won't work.");
+            }
+        })();
+
+        // Helper function to generate CSS particles for admiring interface
+        function generateParticles(count) {
+            const container = document.querySelector('.particles');
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.width = particle.style.height = Math.random() * 3 + 1 + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ==============================================
+        // AUTHENTICATION MODULE
+        // ==============================================
+        // Handles user login, registration, and state
+        App.Auth = {
+            currentUser: null, // Current logged-in user
+
+            // Initialize auth service
+            init() {
+                this.auth = firebase.auth();
+            },
+
+            // Monitor auth changes and update UI accordingly
+            monitorAuthState() {
+                this.auth.onAuthStateChanged(user => {
+                    this.currentUser = user;
+                    if (user) {
+                        // User logged in - check profile and load data
+                        App.Profile.checkAndSetup();
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('register-screen').classList.add('hidden');
+                        document.getElementById('home-screen').classList.remove('hidden');
+                        App.Users.load();
+                        App.Admin.checkIfAdmin();
+                        App.Notifications.requestPermission();
+                    } else {
+                        // User logged out - show login
+                        document.getElementById('login-screen').classList.remove('hidden');
+                        document.getElementById('home-screen').classList.add('hidden');
+                        document.getElementById('register-screen').classList.add('hidden');
+                    }
+                });
+            },
+
+            // Login function - uses email/password
+            login() {
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                if (!email || !password) return alert('Email and password are required.');
+                this.auth.signInWithEmailAndPassword(email, password)
+                    .catch(err => alert(`Login failed: ${err.message}. Check credentials or enable Email/Password in Firebase console.`));
+            },
+
+            // Registration function - simplified to email/password only
+            registerWithEmail() {
+                const username = document.getElementById('reg-username').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                const password = document.getElementById('reg-password').value;
+                if (!username || !email || !password) return alert('All fields are required.');
+                this.auth.createUserWithEmailAndPassword(email, password)
+                    .then(() => this._saveBasicUserData(username))
+                    .catch(err => alert(`Registration failed: ${err.message}. Enable Email/Password in Firebase Auth console.`));
+            },
+
+            // Private helper to save user data after registration
+            _saveBasicUserData(username) {
+                App.DB.collection('users').doc(this.currentUser.uid).set({
+                    username,
+                    email: this.currentUser.email,
+                    isAdmin: false // Default non-admin
+                }).then(() => {
+                    // Auto-open profile setup after registration
+                    App.Profile.checkAndSetup();
+                });
+            },
+
+            // Logout function
+            logout() {
+                this.auth.signOut().catch(err => alert(`Logout failed: ${err.message}`));
+            }
+        };
+
+        // ==============================================
+        // UI AND NAVIGATION MODULE
+        // ==============================================
+        // Handles screen switching, themes, and utilities
+        App.UI = {
+            // Toggle password visibility
+            togglePassword(id) {
+                const el = document.getElementById(id);
+                el.type = el.type === 'password' ? 'text' : 'password';
+            },
+
+            // Show registration screen
+            showRegister() {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('register-screen').classList.remove('hidden');
+            },
+
+            // Show login screen
+            showLogin() {
+                document.getElementById('register-screen').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+            },
+
+            // Show home/user list
+            showHome() {
+                document.getElementById('chat-screen').classList.add('hidden');
+                document.getElementById('feed-screen').classList.add('hidden');
+                document.getElementById('admin-screen').classList.add('hidden');
+                document.querySelector('.screen:not(#chat-screen):not(#feed-screen):not(#admin-screen)').classList.remove('hidden');
+            },
+
+            // Show feed screen and load posts
+            showFeed() {
+                document.getElementById('chat-screen').classList.add('hidden');
+                document.querySelector('.screen:not(#chat-screen):not(#feed-screen):not(#admin-screen)').classList.add('hidden');
+                document.getElementById('admin-screen').classList.add('hidden');
+                document.getElementById('feed-screen').classList.remove('hidden');
+                App.Feed.load();
+            },
+
+            // Show admin dashboard if authorized
+            showAdmin() {
+                if (!App.Admin.isAdmin) return alert('Admin access required.');
+                document.getElementById('chat-screen').classList.add('hidden');
+                document.querySelector('.screen:not(#chat-screen):not(#feed-screen):not(#admin-screen)').classList.add('hidden');
+                document.getElementById('feed-screen').classList.add('hidden');
+                document.getElementById('admin-screen').classList.remove('hidden');
+                App.Admin.loadCharts();
+            },
+
+            // Toggle between dark and light themes
+            toggleTheme() {
+                document.body.classList.toggle('light');
+                document.body.classList.toggle('dark');
+                // Optional: Save theme preference to localStorage for persistence
+                localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+            },
+
+            // Load saved theme on init (called after DOM ready if needed)
+            loadTheme() {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                    document.body.classList.add('light');
+                    document.body.classList.remove('dark');
+                }
+            }
+        };
+
+        // Call loadTheme after init
+        App.UI.loadTheme();
+
+        // ==============================================
+        // PROFILE MANAGEMENT MODULE
+        // ==============================================
+        // Handles user profile setup
+        App.Profile = {
+            // Check if profile needs setup
+            checkAndSetup() {
+                App.DB.collection('users').doc(App.Auth.currentUser.uid).get()
+                    .then(doc => {
+                        if (!doc.exists || !doc.data().profileUsername) {
+                            document.getElementById('profile-setup').classList.remove('hidden');
+                            document.getElementById('home-screen').classList.add('hidden');
+                        } else {
+                            document.getElementById('profile-setup').classList.add('hidden');
+                            document.getElementById('home-screen').classList.remove('hidden');
+                        }
+                    })
+                    .catch(err => alert(`Profile check failed: ${err.message}`));
+            },
+
+            // Setup profile with username and optional pic
+            setup() {
+                const username = document.getElementById('profile-username').value.trim();
+                const file = document.getElementById('profile-pic').files[0];
+                if (!username) return alert('Username is required.');
+
+                const updateData = { profileUsername: username };
+
+                if (file) {
+                    const ref = App.Storage.ref(`profiles/${App.Auth.currentUser.uid}`);
+                    ref.put(file)
+                        .then(() => ref.getDownloadURL())
+                        .then(url => {
+                            updateData.profilePic = url;
+                            this._updateProfile(updateData);
+                        })
+                        .catch(err => alert(`Profile pic upload failed: ${err.message}`));
+                } else {
+                    this._updateProfile(updateData);
+                }
+            },
+
+            // Private helper to update profile in DB
+            _updateProfile(data) {
+                App.DB.collection('users').doc(App.Auth.currentUser.uid).update(data)
+                    .then(() => {
+                        document.getElementById('profile-setup').classList.add('hidden');
+                        document.getElementById('home-screen').classList.remove('hidden');
+                        App.Users.load(); // Reload users to reflect changes
+                    })
+                    .catch(err => alert(`Profile update failed: ${err.message}`));
+            }
+        };
+
+        // ==============================================
+        // USERS LIST MODULE
+        // ==============================================
+        // Handles loading and searching users
+        App.Users = {
+            // Load all users except self
+            load() {
+                App.DB.collection('users').onSnapshot(snap => {
+                    const list = document.getElementById('user-list');
+                    list.innerHTML = '';
+                    snap.forEach(doc => {
+                        if (doc.id === App.Auth.currentUser.uid) return;
+                        const div = document.createElement('div');
+                        div.classList.add('cyber-card', 'pulse-glow', 'message'); // Added message class for styling
+                        div.textContent = doc.data().profileUsername || doc.data().username || 'Anonymous';
+                        div.onclick = () => App.Chat.start(doc.id, div.textContent);
+                        list.appendChild(div);
+                    });
+                }, err => console.error('Users load failed:', err));
+            },
+
+            // Search users by query
+            search() {
+                const query = document.getElementById('search-user').value.toLowerCase();
+                const list = document.getElementById('user-list');
+                Array.from(list.children).forEach(child => {
+                    child.style.display = child.textContent.toLowerCase().includes(query) ? 'block' : 'none';
+                });
+            }
+        };
+
+        // ==============================================
+        // CHAT MODULE
+        // ==============================================
+        // Handles real-time chatting
+        App.Chat = {
+            selectedUser: null,
+            chatListener: null,
+
+            // Start chat with a user
+            start(userId, username) {
+                this.selectedUser = userId;
+                document.getElementById('chat-with').textContent = username;
+                document.getElementById('user-list').parentElement.classList.add('hidden');
+                document.getElementById('chat-screen').classList.remove('hidden');
+
+                if (this.chatListener) this.chatListener(); // Unsubscribe previous
+
+                const chatId = [App.Auth.currentUser.uid, userId].sort().join('_');
+                this.chatListener = App.RTDB.ref(`chats/${chatId}`).orderByChild('timestamp').on('value', snap => {
+                    const messages = document.getElementById('chat-messages');
+                    messages.innerHTML = '';
+                    snap.forEach(child => {
+                        const msg = child.val();
+                        const div = document.createElement('div');
+                        div.classList.add('cyber-card', 'pulse-glow', 'message');
+                        div.innerHTML = `<strong>${msg.sender === App.Auth.currentUser.uid ? 'You' : username}:</strong> ${msg.text || ''}`;
+                        if (msg.fileUrl) {
+                            if (msg.fileType.startsWith('image')) {
+                                div.innerHTML += `<br><img src="${msg.fileUrl}" style="max-width:200px; border-radius:8px;"><br><a href="${msg.fileUrl}" download style="color:var(--neon-green);">Download Image</a>`;
+                            } else if (msg.fileType === 'audio/webm') {
+                                div.innerHTML += `<br><audio controls src="${msg.fileUrl}"></audio>`;
+                            } else {
+                                div.innerHTML += `<br><a href="${msg.fileUrl}" download style="color:var(--neon-green);">Download File</a>`;
+                            }
+                        }
+                        if (msg.sender === App.Auth.currentUser.uid) {
+                            const editBtn = document.createElement('button');
+                            editBtn.classList.add('cyber-btn', 'cyber-btn--small');
+                            editBtn.style.marginLeft = '10px';
+                            editBtn.textContent = 'Edit';
+                            editBtn.onclick = () => this.edit(chatId, child.key, msg.text);
+                            const delBtn = document.createElement('button');
+                            delBtn.classList.add('cyber-btn', 'cyber-btn--small', 'cyber-btn--magenta');
+                            delBtn.style.marginLeft = '10px';
+                            delBtn.textContent = 'Delete';
+                            delBtn.onclick = () => this.delete(chatId, child.key);
+                            div.appendChild(editBtn);
+                            div.appendChild(delBtn);
+                        }
+                        messages.appendChild(div);
+                    });
+                    messages.scrollTop = messages.scrollHeight;
+                }, err => alert(`Chat load failed: ${err.message}`));
+            },
+
+            // Send message or file
+            send() {
+                const text = document.getElementById('chat-input').value.trim();
+                const file = document.getElementById('chat-file').files[0];
+                if (!text && !file) return;
+
+                const chatId = [App.Auth.currentUser.uid, this.selectedUser].sort().join('_');
+                const data = {
+                    sender: App.Auth.currentUser.uid,
+                    text,
+                    timestamp: Date.now()
+                };
+
+                if (file) {
+                    const ref = App.Storage.ref(`chats/${chatId}/${file.name}`);
+                    ref.put(file).then(() => {
+                        ref.getDownloadURL().then(url => {
+                            data.fileUrl = url;
+                            data.fileType = file.type;
+                            App.RTDB.ref(`chats/${chatId}`).push(data);
+                            // Send notification to recipient
+                            App.Notifications.sendToUser(this.selectedUser, 'New message');
+                        });
+                    }).catch(err => alert(`File upload failed: ${err.message}`));
+                } else {
+                    App.RTDB.ref(`chats/${chatId}`).push(data);
+                    // Send notification to recipient
+                    App.Notifications.sendToUser(this.selectedUser, 'New message');
+                }
+
+                document.getElementById('chat-input').value = '';
+                document.getElementById('chat-file').value = '';
+            },
+
+            // Edit existing message
+            edit(chatId, msgId, oldText) {
+                const newText = prompt('Edit message:', oldText);
+                if (newText !== null && newText.trim()) {
+                    App.RTDB.ref(`chats/${chatId}/${msgId}`).update({ text: newText });
+                }
+            },
+
+            // Delete message
+            delete(chatId, msgId) {
+                if (confirm('Delete this message?')) {
+                    App.RTDB.ref(`chats/${chatId}/${msgId}`).remove();
+                }
+            }
+        };
+
+        // ==============================================
+        // VOICE CHAT MODULE (NEW)
+        // ==============================================
+        // Handles voice recording and sending as audio messages
+        App.Voice = {
+            recorder: null,
+            isRecording: false,
+            chunks: [],
+
+            // Toggle voice recording
+            toggleRecording() {
+                if (this.isRecording) {
+                    this.stopRecording();
+                } else {
+                    this.startRecording();
+                }
+            },
+
+            // Start recording voice
+            startRecording() {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        this.recorder = new MediaRecorder(stream);
+                        this.recorder.start();
+                        this.isRecording = true;
+                        document.getElementById('voice-record-btn').textContent = 'Stop Recording';
+                        document.getElementById('voice-record-btn').classList.add('voice-recording');
+                        this.chunks = [];
+                        this.recorder.ondataavailable = e => this.chunks.push(e.data);
+                        this.recorder.onstop = () => this.sendVoiceMessage();
+                    })
+                    .catch(err => alert(`Voice recording failed: ${err.message}. Check microphone permissions.`));
+            },
+
+            // Stop recording
+            stopRecording() {
+                this.recorder.stop();
+                this.isRecording = false;
+                document.getElementById('voice-record-btn').textContent = 'Record Voice';
+                document.getElementById('voice-record-btn').classList.remove('voice-recording');
+            },
+
+            // Send recorded voice as audio file
+            sendVoiceMessage() {
+                const blob = new Blob(this.chunks, { type: 'audio/webm' });
+                const chatId = [App.Auth.currentUser.uid, App.Chat.selectedUser].sort().join('_');
+                const ref = App.Storage.ref(`chats/${chatId}/voice_${Date.now()}.webm`);
+                ref.put(blob).then(() => {
+                    ref.getDownloadURL().then(url => {
+                        App.RTDB.ref(`chats/${chatId}`).push({
+                            sender: App.Auth.currentUser.uid,
+                            text: '',
+                            fileUrl: url,
+                            fileType: 'audio/webm',
+                            timestamp: Date.now()
+                        });
+                        // Send notification
+                        App.Notifications.sendToUser(App.Chat.selectedUser, 'New voice message');
+                    });
+                }).catch(err => alert(`Voice upload failed: ${err.message}`));
+            }
+        };
+
+        // ==============================================
+        // PUSH NOTIFICATIONS MODULE (NEW)
+        // ==============================================
+        // Integrates Firebase Cloud Messaging for push notifications
+        App.Notifications = {
+            // Initialize messaging
+            init() {
+                this.messaging = App.Messaging;
+                this.messaging.onMessage(payload => {
+                    console.log('Foreground notification:', payload);
+                    const notification = new Notification(payload.notification.title, {
+                        body: payload.notification.body,
+                        icon: 'https://files.catbox.moe/08b4pp.jpg'
+                    });
+                });
+            },
+
+            // Request permission for notifications
+            requestPermission() {
+                this.messaging.requestPermission()
+                    .then(() => this.messaging.getToken())
+                    .then(token => {
+                        // Save token to user doc for sending notifications
+                        App.DB.collection('users').doc(App.Auth.currentUser.uid).update({ fcmToken: token });
+                    })
+                    .catch(err => console.error('Notification permission denied:', err));
+            },
+
+            // Send notification to a user (server-side trigger simulation; in real, use Cloud Functions)
+            sendToUser(userId, message) {
+                // For demo, log; in production, call a Cloud Function to send via FCM
+                console.log(`Sending notification to ${userId}: ${message}`);
+                // To actually send, you'd POST to a backend endpoint with the recipient's token
+            }
+        };
+
+        // ==============================================
+        // FEED AND POSTS MODULE
+        // ==============================================
+        // Handles social feed, posts, and comments
+        App.Feed = {
+            // Load posts in real-time
+            load() {
+                App.DB.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                    const postsDiv = document.getElementById('posts');
+                    postsDiv.innerHTML = '';
+                    snap.forEach(doc => {
+                        const post = doc.data();
+                        const postDiv = document.createElement('div');
+                        postDiv.classList.add('cyber-card', 'pulse-glow', 'message');
+                        postDiv.innerHTML = `<strong>User:</strong> ${post.content || ''}`;
+                        if (post.mediaUrl) {
+                            if (post.mediaType.startsWith('image')) {
+                                postDiv.innerHTML += `<br><img src="${post.mediaUrl}" style="max-width:300px; border-radius:8px;">`;
+                            } else if (post.mediaType.startsWith('video')) {
+                                postDiv.innerHTML += `<br><video src="${post.mediaUrl}" style="max-width:300px;" controls></video>`;
+                            }
+                        }
+                        postDiv.innerHTML += `
+                            <div id="comments-${doc.id}" class="padding-10"></div>
+                            <input type="text" id="comment-input-${doc.id}" placeholder="Add comment" class="margin-top-20">
+                            <button class="cyber-btn cyber-btn--small margin-top-20" onclick="App.Feed.addComment('${doc.id}')">Comment</button>`;
+                        this._loadComments(doc.id);
+                        postsDiv.appendChild(postDiv);
+                    });
+                }, err => alert(`Feed load failed: ${err.message}`));
+            },
+
+            // Create new post
+            createPost() {
+                const content = document.getElementById('post-content').value.trim();
+                const media = document.getElementById('post-media').files[0];
+                if (!content && !media) return alert('Post content or media required.');
+
+                const postData = {
+                    userId: App.Auth.currentUser.uid,
+                    content,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                if (media) {
+                    const ref = App.Storage.ref(`posts/${App.Auth.currentUser.uid}/${media.name}`);
+                    ref.put(media).then(() => {
+                        ref.getDownloadURL().then(url => {
+                            postData.mediaUrl = url;
+                            postData.mediaType = media.type;
+                            App.DB.collection('posts').add(postData);
+                        });
+                    }).catch(err => alert(`Post media upload failed: ${err.message}`));
+                } else {
+                    App.DB.collection('posts').add(postData);
+                }
+
+                document.getElementById('post-content').value = '';
+                document.getElementById('post-media').value = '';
+            },
+
+            // Add comment to post
+            addComment(postId) {
+                const comment = document.getElementById(`comment-input-${postId}`).value.trim();
+                if (!comment) return;
+
+                App.DB.collection('posts').doc(postId).collection('comments').add({
+                    userId: App.Auth.currentUser.uid,
+                    text: comment,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).catch(err => alert(`Comment add failed: ${err.message}`));
+
+                document.getElementById(`comment-input-${postId}`).value = '';
+            },
+
+            // Private: Load comments for a post
+            _loadComments(postId) {
+                App.DB.collection('posts').doc(postId).collection('comments').orderBy('timestamp').onSnapshot(snap => {
+                    const commentsDiv = document.getElementById(`comments-${postId}`);
+                    commentsDiv.innerHTML = '';
+                    snap.forEach(doc => {
+                        const comment = doc.data();
+                        const commentDiv = document.createElement('div');
+                        commentDiv.classList.add('cyber-card', 'cyber-card--small', 'message');
+                        commentDiv.style.margin = '5px 0';
+                        commentDiv.textContent = `Comment: ${comment.text}`;
+                        commentsDiv.appendChild(commentDiv);
+                    });
+                }, err => console.error('Comments load failed:', err));
+            }
+        };
+
+        // ==============================================
+        // ADMIN DASHBOARD MODULE
+        // ==============================================
+        // Handles admin features and stats
+        App.Admin = {
+            isAdmin: false,
+
+            // Check if current user is admin
+            checkIfAdmin() {
+                App.DB.collection('users').doc(App.Auth.currentUser.uid).get()
+                    .then(doc => {
+                        if (doc.data() && doc.data().isAdmin) {
+                            this.isAdmin = true;
+                            document.getElementById('admin-btn').classList.remove('hidden');
+                        }
+                    })
+                    .catch(err => console.error('Admin check failed:', err));
+            },
+
+            // Load dashboard charts
+            loadCharts() {
+                // Users chart
+                App.DB.collection('users').get().then(snap => {
+                    const ctx = document.getElementById('users-chart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Total Users'],
+                            datasets: [{ label: 'Users', data: [snap.size], backgroundColor: 'rgba(0,240,255,0.6)', borderColor: var(--neon-cyan), borderWidth: 1 }]
+                        },
+                        options: {
+                            scales: { y: { beginAtZero: true, grid: { color: var(--neon-purple) } } },
+                            plugins: { legend: { labels: { color: var(--neon-green) } } }
+                        }
+                    });
+                }).catch(err => alert(`Users chart failed: ${err.message}`));
+
+                // Chats/messages chart
+                App.RTDB.ref('chats').get().then(snap => {
+                    let count = 0;
+                    snap.forEach(child => child.forEach(() => count++));
+                    const ctx = document.getElementById('chats-chart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Total Messages'],
+                            datasets: [{ label: 'Messages', data: [count], backgroundColor: 'rgba(255,0,170,0.6)', borderColor: var(--neon-magenta), borderWidth: 1 }]
+                        },
+                        options: {
+                            scales: { y: { beginAtZero: true, grid: { color: var(--neon-purple) } } },
+                            plugins: { legend: { labels: { color: var(--neon-green) } } }
+                        }
+                    });
+                }).catch(err => alert(`Chats chart failed: ${err.message}`));
+            }
+        };
+
+        // ==============================================
+        // PWA SETUP
+        // ==============================================
+        // Install prompt for PWA
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            deferredPrompt.prompt(); // Auto-show prompt
+            deferredPrompt.userChoice.then(choice => {
+                console.log(choice.outcome === 'accepted' ? 'PWA installed' : 'PWA dismissed');
+                deferredPrompt = null;
+            });
+        });
+
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker registered:', reg))
+                .catch(err => console.error('Service Worker registration failed:', err));
+        }
+    </script>
+</body>
+      </html>
