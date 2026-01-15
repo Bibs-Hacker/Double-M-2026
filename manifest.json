@@ -1,0 +1,20 @@
+{
+  "short_name": "FamilyChat",
+  "name": "Family Chatting App by Brian and Merab",
+  "icons": [
+    {
+      "src": "https://files.catbox.moe/08b4pp.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    },
+    {
+      "src": "https://files.catbox.moe/08b4pp.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#00f0ff",
+  "background_color": "#0a0015"
+}
